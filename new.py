@@ -21,6 +21,7 @@ def extract(url):
     chrome_version = "120.0.6099.200"  # Replace with your actual Chrome version
     chrome_options = Options()
     chrome_options.add_argument("--headless")
+    options.add_argument('--disable-gpu')
     service = ChromeService(executable_path=ChromeDriverManager(chrome_version).install())
     driver = webdriver.Chrome(service=service, options=chrome_options)
     # driver = webdriver.Chrome(ChromeDriverManager().install())    
@@ -144,16 +145,20 @@ def extract(url):
         noti_links.append('NA')
 
     # Rules
-    list_links=[]
-    rule = driver.find_element(By.ID, "myTableRules")
-    a_tag = rule.find_elements(By.TAG_NAME, "a")
-    for i in a_tag:
-        rule_pdf = i.get_attribute("href")
-        list_links.append(rule_pdf)
-
+    list_links=[]    
+    try:
+        rule = driver.find_element(By.ID, "myTableRules")
+        a_tag = rule.find_elements(By.TAG_NAME, "a")
+        if a_tag:
+            for i in a_tag:
+                rule_pdf = i.get_attribute("href")
+                list_links.append(rule_pdf)
+        else:
+            list_links.append('NA')
+    except NoSuchElementException:
+        list_links.append('NA')
     
     scraped_data = list(scraped.items())
-    # print(data_dict)
     print("act pdf:", act_pdf)
     print("Rule PDF", list_links)
     print("Regulation PDF", regu_links)
@@ -178,13 +183,13 @@ def extract(url):
         "Ordinance PDF": ordi_links,
         "Act ID": scraped_data[0][1] if len(scraped_data) > 0 else "",
         "Act Number": scraped_data[1][1] if len(scraped_data) > 1 else "",
-"Enactment Date": scraped_data[2][1] if len(scraped_data) > 2 else "",
-"Act Year": scraped_data[3][1] if len(scraped_data) > 3 else "",
-"Short Title": scraped_data[4][1] if len(scraped_data) > 4 else "",
-"Ministry": scraped_data[5][1] if len(scraped_data) > 5 else "",
-"Department": scraped_data[6][1] if len(scraped_data) > 6 else "",
-"Type": scraped_data[7][1] if len(scraped_data) > 7 else "",
-"Location": scraped_data[8][1] if len(scraped_data) > 8 else "",
+        "Enactment Date": scraped_data[2][1] if len(scraped_data) > 2 else "",
+        "Act Year": scraped_data[3][1] if len(scraped_data) > 3 else "",
+        "Short Title": scraped_data[4][1] if len(scraped_data) > 4 else "",
+        "Ministry": scraped_data[5][1] if len(scraped_data) > 5 else "",
+        "Department": scraped_data[6][1] if len(scraped_data) > 6 else "",
+        "Type": scraped_data[7][1] if len(scraped_data) > 7 else "",
+        "Location": scraped_data[8][1] if len(scraped_data) > 8 else "",
         "Link": url
     }
     return data
