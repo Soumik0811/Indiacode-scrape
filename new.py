@@ -203,8 +203,7 @@ def main():
             if url.strip() != "":
                 st.write(f"Scraping data from URL {i + 1}: {url}")
                 data = extract(url)
-                new.append(data)
-                all_data.extend(new) 
+                all_data.append(data) 
 
         if all_data:
             headers = ["Act Details", "Act ID", "Act Number", "Enactment Date", "Act Year", "Short Title", "Ministry", "Department", "Type", "Location", "Act PDF", "Rule PDF", "Regulation PDF", "Notification PDF", "Circular PDF", "Order PDF", "Statutes PDF", "Ordinance PDF", "Link"]
