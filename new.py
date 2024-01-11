@@ -1,29 +1,50 @@
+# from selenium import webdriver
+# from selenium.webdriver.common.by import By
+# from bs4 import BeautifulSoup
+# import requests
+# import csv
+# from selenium.common.exceptions import NoSuchElementException
+# from webdriver_manager.chrome import ChromeDriverManager
+# import time
+# from selenium.webdriver.chrome.service import Service as ChromeService
+# from selenium.webdriver.chrome.service import Service
+# import streamlit as st
+# import pandas as pd
+# import os
+# from selenium.webdriver.chrome.options import Options
+
+
+
+# def extract(url):
+# # Initialize an empty list to store scraped data
+#     data_list = []
+#     chrome_version = "120.0.6099.200"  # Replace with your actual Chrome version
+#     chrome_options = Options()
+#     chrome_options.add_argument("--headless")
+#     chrome_options.add_argument('--disable-gpu')
+#     service = ChromeService(executable_path=ChromeDriverManager(chrome_version).install())
+#     driver = webdriver.Chrome(service=service, options=chrome_options)
 from selenium import webdriver
+from selenium.webdriver.firefox.options import Options as FirefoxOptions
 from selenium.webdriver.common.by import By
 from bs4 import BeautifulSoup
-import requests
 import csv
 from selenium.common.exceptions import NoSuchElementException
-from webdriver_manager.chrome import ChromeDriverManager
+from webdriver_manager.firefox import GeckoDriverManager
 import time
-from selenium.webdriver.chrome.service import Service as ChromeService
-from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.firefox.service import Service as FirefoxService
+from selenium.webdriver.firefox.service import Service
 import streamlit as st
 import pandas as pd
 import os
-from selenium.webdriver.chrome.options import Options
-
-
 
 def extract(url):
-# Initialize an empty list to store scraped data
+    # Initialize an empty list to store scraped data
     data_list = []
-    chrome_version = "120.0.6099.200"  # Replace with your actual Chrome version
-    chrome_options = Options()
-    chrome_options.add_argument("--headless")
-    chrome_options.add_argument('--disable-gpu')
-    service = ChromeService(executable_path=ChromeDriverManager(chrome_version).install())
-    driver = webdriver.Chrome(service=service, options=chrome_options)
+    firefox_options = FirefoxOptions()
+    firefox_options.add_argument("--headless")
+    service = FirefoxService(executable_path=GeckoDriverManager().install())
+    driver = webdriver.Firefox(service=service, options=firefox_options)
     # driver = webdriver.Chrome(ChromeDriverManager().install())    
     driver.get(url)  
     response = requests.get(url)
