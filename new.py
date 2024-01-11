@@ -13,10 +13,10 @@ import os
 def extract(url):
 # Initialize an empty list to store scraped data
     data_list = []
-    service = Service(ChromeDriverManager().install())
-    options = webdriver.ChromeOptions()
-    driver = webdriver.Chrome(service=service, options=options)
-    # driver = webdriver.Chrome(ChromeDriverManager().install()) 
+    # service = Service(ChromeDriverManager().install())
+    # options = webdriver.ChromeOptions()
+    # driver = webdriver.Chrome(service=service, options=options)
+    driver = webdriver.Chrome(ChromeDriverManager().install()) 
     driver.get(url)  
     response = requests.get(url)
     if response.status_code == 200:
