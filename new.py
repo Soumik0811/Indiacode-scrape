@@ -16,13 +16,11 @@ def extract(url):
     service = Service(ChromeDriverManager().install())
     options = webdriver.ChromeOptions()
     driver = webdriver.Chrome(service=service, options=options)
-    # driver = webdriver.Chrome(ChromeDriverManager().install()) 
     driver.get(url)  
     response = requests.get(url)
     if response.status_code == 200:
         soup = BeautifulSoup(response.text, 'html.parser')
     
-     # Find the table with class 'table itemDisplayTable'
         table = soup.find('table', class_='table itemDisplayTable')
     
         if table:
@@ -40,8 +38,6 @@ def extract(url):
     else:
         print("Failed to fetch the page.")
     
-     # Initialize Chrome WebDriver
-     # Navigate to the URL
     time.sleep(3)  # Let the page load
 
     # Find the product ID
@@ -152,7 +148,6 @@ def extract(url):
 
     
     scraped_data = list(scraped.items())
-    # print(data_dict)
     print("act pdf:", act_pdf)
     print("Rule PDF", list_links)
     print("Regulation PDF", regu_links)
@@ -190,43 +185,37 @@ def extract(url):
 
     
 def main():
-    st.title("Web Scraping with Streamlit")
+    st.title("India Code Scraping using Streamlit")
 
     # Input box for entering URLs
     url_input = st.text_area("Enter URLs (one per line)", "")
     urls = url_input.split('\n')
 
     if st.button("Scrape Data"):
-        new=[]
         all_data = []
         for i, url in enumerate(urls):
             if url.strip() != "":
                 st.write(f"Scraping data from URL {i + 1}: {url}")
                 data = extract(url)
-                all_data.append(data) 
+                if isinstance(data, list):
+                    all_data.extend(data)  
+                else:
+                    all_data.append(data)
 
         if all_data:
             headers = ["Act Details", "Act ID", "Act Number", "Enactment Date", "Act Year", "Short Title", "Ministry", "Department", "Type", "Location", "Act PDF", "Rule PDF", "Regulation PDF", "Notification PDF", "Circular PDF", "Order PDF", "Statutes PDF", "Ordinance PDF", "Link"]
             csv_filename = "new_scraped.csv"
-            downloads_dir = os.path.join(os.path.expanduser("~"), "Downloads")
-            csv_file_path = os.path.join(downloads_dir, csv_filename)
-
-            # Check if the CSV file exists to write the header
-            file_exists = os.path.isfile(csv_file_path)
-            if not file_exists:
-                with open(csv_file_path, 'w', newline='', encoding='utf-8') as file:
-                    writer = csv.DictWriter(file, fieldnames=headers)
-                    writer.writeheader()
 
             # Append data to the CSV file
-            with open(csv_file_path, 'a', newline='', encoding='utf-8') as file:
+            with open(csv_filename, 'a', newline='', encoding='utf-8') as file:
                 writer = csv.DictWriter(file, fieldnames=headers)
+                # writer.writeheader()      
                 writer.writerows(all_data)  # Write data rows
 
             st.success("Data scraped successfully!")
 
             # Read the file content
-            with open(csv_file_path, "rb") as file:
+            with open(csv_filename, "rb") as file:
                 csv_file_content = file.read()
 
             # Download button
@@ -239,4 +228,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
