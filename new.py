@@ -11,11 +11,14 @@ from selenium.webdriver.chrome.service import Service
 import streamlit as st
 import pandas as pd
 import os
+
+chrome_driver_path = 'C:\Program Files\Google\Chrome\Application'
+
 def extract(url):
 # Initialize an empty list to store scraped data
     data_list = []
     chrome_version = "120.0.6099.200"  # Update this with your actual Chrome version
-    service = ChromeService(executable_path=ChromeDriverManager(chrome_type="google-chrome", version=chrome_version).install())
+    service = ChromeService(executable_path=chrome_driver_path)    
     options = webdriver.ChromeOptions()
     driver = webdriver.Chrome(service=service, options=options)
     # driver = webdriver.Chrome(ChromeDriverManager().install()) 
