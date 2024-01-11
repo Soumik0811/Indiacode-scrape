@@ -41,11 +41,11 @@ import os
 def extract(url):
     # Initialize an empty list to store scraped data
     data_list = []
-    firefox_options = FirefoxOptions()
-    firefox_options.add_argument("--headless")
-    service = FirefoxService(executable_path=GeckoDriverManager().install())
-    driver = webdriver.Firefox(service=service, options=firefox_options)
-    # driver = webdriver.Chrome(ChromeDriverManager().install())    
+    # firefox_options = FirefoxOptions()
+    # firefox_options.add_argument("--headless")
+    # service = FirefoxService(executable_path=GeckoDriverManager().install())
+    # driver = webdriver.Firefox(service=service, options=firefox_options)
+    driver = webdriver.Firefox(GeckoDriverManager().install())   
     driver.get(url)  
     response = requests.get(url)
     if response.status_code == 200:
