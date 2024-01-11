@@ -11,14 +11,18 @@ from selenium.webdriver.chrome.service import Service
 import streamlit as st
 import pandas as pd
 import os
+from selenium.webdriver.chrome.options import Options
+
 
 
 def extract(url):
 # Initialize an empty list to store scraped data
     data_list = []
     chrome_version = "120.0.6099.200"  # Replace with your actual Chrome version
+    chrome_options = Options()
+    chrome_options.add_argument("--headless")
     service = ChromeService(executable_path=ChromeDriverManager(chrome_version).install())
-    driver = webdriver.Chrome(service=service)
+    driver = webdriver.Chrome(service=service, options=chrome_options)
     # driver = webdriver.Chrome(ChromeDriverManager().install())    
     driver.get(url)  
     response = requests.get(url)
