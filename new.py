@@ -13,7 +13,7 @@ import os
 def extract(url):
 # Initialize an empty list to store scraped data
     data_list = []
-    service = Service(ChromeDriverManager().install())
+    service = Service(ChromeDriverManager(version="120.0.6099.200").install())
     options = webdriver.ChromeOptions()
     driver = webdriver.Chrome(service=service, options=options)
     # driver = webdriver.Chrome(ChromeDriverManager().install()) 
