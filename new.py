@@ -21,7 +21,7 @@ def extract(url):
     chrome_version = "120.0.6099.200"  # Replace with your actual Chrome version
     chrome_options = Options()
     chrome_options.add_argument("--headless")
-    options.add_argument('--disable-gpu')
+    chrome_options.add_argument('--disable-gpu')
     service = ChromeService(executable_path=ChromeDriverManager(chrome_version).install())
     driver = webdriver.Chrome(service=service, options=chrome_options)
     # driver = webdriver.Chrome(ChromeDriverManager().install())    
